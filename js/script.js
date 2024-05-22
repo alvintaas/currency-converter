@@ -32,7 +32,14 @@ let convertCurrency = () => {
   if (amount.length != 0) {
     fetch(api)
       .then((resp) => resp.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        let fromExchangeRate = data.conversion_rates[fromCurrency];
+        let toExchangeRate = data.conversion_rates[toCurrency];
+        const convertedAmount = (amount / fromExchangeRate) * toExchangeRate;
+        result.innerHTML = `${amount} ${fromCurrency} = ${convertedAmount.toFixed(
+          2
+        )}`;
+      });
   } else {
     alert("Please fill in an amount");
   }
